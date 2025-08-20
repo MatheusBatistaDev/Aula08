@@ -72,7 +72,7 @@ def carregar_dados(df: pd.DataFrame, format_saida: list):
 # =========================
 if __name__ == "__main__":
     pasta_argumento = 'data'
-    
+     
     # Extract
     dataframe = extrair_dados_e_consolidar(pasta_argumento)
     
@@ -87,3 +87,24 @@ if __name__ == "__main__":
         carregar_dados(dataframe_calculado, format_saida=formatos)
         
         print("✅ ETL concluído com sucesso!")
+
+
+
+def pipeline_calcular_kpi_de_vendas_consolidado(pasta: str, formatos: list):
+    """
+    Pipeline completo de ETL: Extrai, transforma e carrega os dados.
+    """
+    # Extract
+    df_extraido = extrair_dados_e_consolidar(pasta)
+    
+    if df_extraido.empty:
+        print("⚠️ Nenhum dado para processar no pipeline.")
+        return
+    
+    # Transform
+    df_transformado = calcular_kpi_de_total_de_vendas(df_extraido)
+    
+    # Load
+    carregar_dados(df_transformado, format_saida=formatos)
+    
+    print("✅ Pipeline ETL concluído com sucesso!")
